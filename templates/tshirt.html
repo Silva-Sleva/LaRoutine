@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Каталог футболок</title>
     <style>
-        /* Общие стили */
         body {
             font-family: 'Helvetica', 'Arial', sans-serif;
             margin: 0;
@@ -29,7 +28,6 @@
             letter-spacing: 2px;
         }
 
-        /* Стили каталога */
         .products-grid {
             display: flex;
             flex-wrap: wrap;
@@ -106,7 +104,7 @@
             margin: 0;
         }
 
-        /* Стили страницы товара */
+
         .product-page {
             display: none;
             background: white;
@@ -209,7 +207,6 @@
             font-family: 'Brush Script MT', sans-serif;
         }
 
-        /* Адаптивность */
         @media (max-width: 992px) {
             .product-gallery, .product-details {
                 width: 100%;
@@ -243,219 +240,211 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Каталог товаров -->
-        <div id="catalog">
-            <h1 style="font-family:'Brush Script MT'">Футболки</h1>
+<div class="container">
+    <div id="catalog">
+        <h1 style="font-family:'Brush Script MT'">Футболки</h1>
 
-            <div class="products-grid">
-                <!-- Футболка 1 -->
-                <a href="#" class="product-card" onclick="showProduct(1); return false;">
-                    <div class="product-image">
-                        <img src="static/images/tshirt_1.png" alt="Классическая белая футболка" class="default-image">
-                        <img src="static/images/tshirt_1.2.png" alt="Классическая белая футболка - вид сзади" class="hover-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Классическая белая футболка</h3>
-                        <p class="product-price">2 990 ₽</p>
-                    </div>
-                </a>
-
-                <!-- Футболка 2 -->
-                <a href="#" class="product-card" onclick="showProduct(2); return false;">
-                    <div class="product-image">
-                        <img src="static/images/tshirt_2.png" alt="Черная футболка с принтом" class="default-image">
-                        <img src="static/images/tshirt_2.2.png" alt="Черная футболка - вид сзади" class="hover-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Черная футболка с принтом</h3>
-                        <p class="product-price">3 490 ₽</p>
-                    </div>
-                </a>
-
-                <!-- Футболка 3 -->
-                <a href="#" class="product-card" onclick="showProduct(3); return false;">
-                    <div class="product-image">
-                        <img src="static/images/tshirt_3.png" alt="Оверсайз серая футболка" class="default-image">
-                        <img src="static/images/tshirt_3.1.png" alt="Оверсайз серая футболка - вид сзади" class="hover-image">
-                    </div>
-                    <div class="product-info">
-                        <h3 class="product-title">Оверсайз серая футболка</h3>
-                        <p class="product-price">3 290 ₽</p>
-                    </div>
-                </a>
-            </div>
-        </div>
-
-        <!-- Страницы товаров -->
-        <!-- Товар 1 -->
-        <div id="product-1" class="product-page">
-            <a href="#" class="back-to-catalog" onclick="hideProduct(); return false;">← Вернуться в каталог</a>
-            <div class="product-gallery">
-                <div class="main-image">
-                    <img src="static/images/tshirt_1.png" alt="Классическая белая футболка">
+        <div class="products-grid">
+            <a href="#" class="product-card" onclick="showProduct(1); return false;">
+                <div class="product-image">
+                    <img src="static/images/tshirt_1.png" alt="Классическая белая футболка" class="default-image">
+                    <img src="static/images/tshirt_1.2.png" alt="Классическая белая футболка - вид сзади"
+                         class="hover-image">
                 </div>
-            </div>
-            <div class="product-details">
-                <h2 class="product-title-page">Классическая белая футболка</h2>
-                <p class="product-price-page">2 990 ₽</p>
-
-                <p>Классическая белая футболка из 100% хлопка. Удобный крой, качественный пошив. Подходит для повседневной носки.</p>
-
-                <div class="size-selector">
-                    <h3>Размер</h3>
-                    <div class="size-options">
-                        <div class="size-option" onclick="selectSize(this)">XS</div>
-                        <div class="size-option" onclick="selectSize(this)">S</div>
-                        <div class="size-option" onclick="selectSize(this)">M</div>
-                        <div class="size-option selected" onclick="selectSize(this)">L</div>
-                        <div class="size-option" onclick="selectSize(this)">XL</div>
-                    </div>
+                <div class="product-info">
+                    <h3 class="product-title">Классическая белая футболка</h3>
+                    <p class="product-price">2 990 ₽</p>
                 </div>
+            </a>
 
-                <button class="add-to-cart" onclick="addToCart(1)">Добавить в корзину</button>
-            </div>
-        </div>
-
-        <!-- Товар 2 -->
-        <div id="product-2" class="product-page">
-            <a href="#" class="back-to-catalog" onclick="hideProduct(); return false;">← Вернуться в каталог</a>
-            <div class="product-gallery">
-                <div class="main-image">
-                    <img src="static/images/tshirt_2.png" alt="Черная футболка с принтом">
+            <a href="#" class="product-card" onclick="showProduct(2); return false;">
+                <div class="product-image">
+                    <img src="static/images/tshirt_2.png" alt="Черная футболка с принтом" class="default-image">
+                    <img src="static/images/tshirt_2.2.png" alt="Черная футболка - вид сзади" class="hover-image">
                 </div>
-            </div>
-            <div class="product-details">
-                <h2 class="product-title-page">Черная футболка с принтом</h2>
-                <p class="product-price-page">3 490 ₽</p>
-
-                <p>Черная футболка с оригинальным принтом. Состав: 95% хлопок, 5% эластан. Удобная и стильная модель.</p>
-
-                <div class="size-selector">
-                    <h3>Размер</h3>
-                    <div class="size-options">
-                        <div class="size-option" onclick="selectSize(this)">XS</div>
-                        <div class="size-option selected" onclick="selectSize(this)">S</div>
-                        <div class="size-option" onclick="selectSize(this)">M</div>
-                        <div class="size-option" onclick="selectSize(this)">L</div>
-                        <div class="size-option" onclick="selectSize(this)">XL</div>
-                    </div>
+                <div class="product-info">
+                    <h3 class="product-title">Черная футболка с принтом</h3>
+                    <p class="product-price">3 490 ₽</p>
                 </div>
+            </a>
 
-                <button class="add-to-cart" onclick="addToCart(2)">Добавить в корзину</button>
-            </div>
-        </div>
-
-        <!-- Товар 3 -->
-        <div id="product-3" class="product-page">
-            <a href="#" class="back-to-catalog" onclick="hideProduct(); return false;">← Вернуться в каталог</a>
-            <div class="product-gallery">
-                <div class="main-image">
-                    <img src="static/images/tshirt_3.png" alt="Оверсайз серая футболка">
+            <a href="#" class="product-card" onclick="showProduct(3); return false;">
+                <div class="product-image">
+                    <img src="static/images/tshirt_3.png" alt="Оверсайз серая футболка" class="default-image">
+                    <img src="static/images/tshirt_3.1.png" alt="Оверсайз серая футболка - вид сзади"
+                         class="hover-image">
                 </div>
-            </div>
-            <div class="product-details">
-                <h2 class="product-title-page">Оверсайз серая футболка</h2>
-                <p class="product-price-page">3 290 ₽</p>
-
-                <p>Серая футболка оверсайз кроя. Свободный силуэт, мягкая ткань. Идеальный вариант для создания модного образа.</p>
-
-                <div class="size-selector">
-                    <h3>Размер</h3>
-                    <div class="size-options">
-                        <div class="size-option" onclick="selectSize(this)">XS</div>
-                        <div class="size-option" onclick="selectSize(this)">S</div>
-                        <div class="size-option selected" onclick="selectSize(this)">M</div>
-                        <div class="size-option" onclick="selectSize(this)">L</div>
-                        <div class="size-option" onclick="selectSize(this)">XL</div>
-                    </div>
+                <div class="product-info">
+                    <h3 class="product-title">Оверсайз серая футболка</h3>
+                    <p class="product-price">3 290 ₽</p>
                 </div>
-
-                <button class="add-to-cart" onclick="addToCart(3)">Добавить в корзину</button>
-            </div>
+            </a>
         </div>
     </div>
 
-    <script>
-        // Показ страницы товара
-        function showProduct(productId) {
-            document.getElementById('catalog').style.display = 'none';
-            document.getElementById('product-' + productId).classList.add('active');
-        }
+    <div id="product-1" class="product-page">
+        <a href="#" class="back-to-catalog" onclick="hideProduct(); return false;">← Вернуться в каталог</a>
+        <div class="product-gallery">
+            <div class="main-image">
+                <img src="static/images/tshirt_1.png" alt="Классическая белая футболка">
+            </div>
+        </div>
+        <div class="product-details">
+            <h2 class="product-title-page">Классическая белая футболка</h2>
+            <p class="product-price-page">2 990 ₽</p>
 
-        // Скрытие страницы товара
-        function hideProduct() {
-            document.getElementById('catalog').style.display = 'block';
-            document.querySelectorAll('.product-page').forEach(page => {
-                page.classList.remove('active');
-            });
-        }
+            <p>Классическая белая футболка из 100% хлопка. Удобный крой, качественный пошив. Подходит для повседневной
+                носки.</p>
 
-        // Выбор размера
-        function selectSize(element) {
-            // Убираем выделение у всех размеров
-            element.parentNode.querySelectorAll('.size-option').forEach(option => {
-                option.classList.remove('selected');
-            });
+            <div class="size-selector">
+                <h3>Размер</h3>
+                <div class="size-options">
+                    <div class="size-option" onclick="selectSize(this)">XS</div>
+                    <div class="size-option" onclick="selectSize(this)">S</div>
+                    <div class="size-option" onclick="selectSize(this)">M</div>
+                    <div class="size-option selected" onclick="selectSize(this)">L</div>
+                    <div class="size-option" onclick="selectSize(this)">XL</div>
+                </div>
+            </div>
 
-            // Добавляем выделение выбранному размеру
-            element.classList.add('selected');
-        }
+            <button class="add-to-cart" onclick="addToCart(1)">Добавить в корзину</button>
+        </div>
+    </div>
 
-        // Добавление в корзину
-        function addToCart(productId) {
-          // Получаем выбранный размер
-          const selectedSize = document.querySelector('#product-' + productId + ' .size-option.selected').innerText;
+    <div id="product-2" class="product-page">
+        <a href="#" class="back-to-catalog" onclick="hideProduct(); return false;">← Вернуться в каталог</a>
+        <div class="product-gallery">
+            <div class="main-image">
+                <img src="static/images/tshirt_2.png" alt="Черная футболка с принтом">
+            </div>
+        </div>
+        <div class="product-details">
+            <h2 class="product-title-page">Черная футболка с принтом</h2>
+            <p class="product-price-page">3 490 ₽</p>
 
-          // Получаем данные о товаре
-          const productName = document.querySelector('#product-' + productId + ' .product-title-page').innerText;
-          const productPrice = parseInt(document.querySelector('#product-' + productId + ' .product-price-page').innerText.replace(/\D/g, ''));
-          const productImage = document.querySelector('#product-' + productId + ' .main-image img').src;
+            <p>Черная футболка с оригинальным принтом. Состав: 95% хлопок, 5% эластан. Удобная и стильная модель.</p>
 
-          // Создаем объект товара
-          const product = {
-            id: productId,
-            name: productName,
-            price: productPrice,
-            size: selectedSize,
-            image: productImage,
-            quantity: 1
-          };
+            <div class="size-selector">
+                <h3>Размер</h3>
+                <div class="size-options">
+                    <div class="size-option" onclick="selectSize(this)">XS</div>
+                    <div class="size-option selected" onclick="selectSize(this)">S</div>
+                    <div class="size-option" onclick="selectSize(this)">M</div>
+                    <div class="size-option" onclick="selectSize(this)">L</div>
+                    <div class="size-option" onclick="selectSize(this)">XL</div>
+                </div>
+            </div>
 
-          // Получаем текущую корзину из localStorage
-          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            <button class="add-to-cart" onclick="addToCart(2)">Добавить в корзину</button>
+        </div>
+    </div>
 
-          // Проверяем, есть ли уже такой товар с таким же размером в корзине
-          const existingItemIndex = cart.findIndex(item => item.id === productId && item.size === selectedSize);
+    <div id="product-3" class="product-page">
+        <a href="#" class="back-to-catalog" onclick="hideProduct(); return false;">← Вернуться в каталог</a>
+        <div class="product-gallery">
+            <div class="main-image">
+                <img src="static/images/tshirt_3.png" alt="Оверсайз серая футболка">
+            </div>
+        </div>
+        <div class="product-details">
+            <h2 class="product-title-page">Оверсайз серая футболка</h2>
+            <p class="product-price-page">3 290 ₽</p>
 
-          if (existingItemIndex >= 0) {
-            // Если товар уже есть - увеличиваем количество
-            cart[existingItemIndex].quantity += 1;
-          } else {
-            // Если нет - добавляем новый товар
-            cart.push(product);
-          }
+            <p>Серая футболка оверсайз кроя. Свободный силуэт, мягкая ткань. Идеальный вариант для создания модного
+                образа.</p>
 
-          // Сохраняем обновленную корзину
-          localStorage.setItem('cart', JSON.stringify(cart));
+            <div class="size-selector">
+                <h3>Размер</h3>
+                <div class="size-options">
+                    <div class="size-option" onclick="selectSize(this)">XS</div>
+                    <div class="size-option" onclick="selectSize(this)">S</div>
+                    <div class="size-option selected" onclick="selectSize(this)">M</div>
+                    <div class="size-option" onclick="selectSize(this)">L</div>
+                    <div class="size-option" onclick="selectSize(this)">XL</div>
+                </div>
+            </div>
 
-          // Обновляем счетчик в шапке
-          updateCartCounter();
+            <button class="add-to-cart" onclick="addToCart(3)">Добавить в корзину</button>
+        </div>
+    </div>
+</div>
 
-          // Показываем уведомление
-          alert(`Товар добавлен в корзину!\n${productName}\nРазмер: ${selectedSize}\nЦена: ${productPrice} ₽`);
-        }
+<script>
 
-        // Функция для обновления счетчика в шапке
-        function updateCartCounter() {
-          const cart = JSON.parse(localStorage.getItem('cart')) || [];
-          const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-          document.getElementById('cart-counter').textContent = totalItems;
-        }
+    function showProduct(productId) {
+        document.getElementById('catalog').style.display = 'none';
+        document.getElementById('product-' + productId).classList.add('active');
+    }
 
-        // Инициализация счетчика при загрузке страницы
-        document.addEventListener('DOMContentLoaded', updateCartCounter);
-            </script>
-        </body>
+
+    function hideProduct() {
+        document.getElementById('catalog').style.display = 'block';
+        document.querySelectorAll('.product-page').forEach(page => {
+            page.classList.remove('active');
+        });
+    }
+
+
+    function selectSize(element) {
+
+        element.parentNode.querySelectorAll('.size-option').forEach(option => {
+            option.classList.remove('selected');
+        });
+
+
+        element.classList.add('selected');
+    }
+
+
+    function addToCart(productId) {
+
+      const selectedSize = document.querySelector('#product-' + productId + ' .size-option.selected').innerText;
+
+
+      const productName = document.querySelector('#product-' + productId + ' .product-title-page').innerText;
+      const productPrice = parseInt(document.querySelector('#product-' + productId + ' .product-price-page').innerText.replace(/\D/g, ''));
+      const productImage = document.querySelector('#product-' + productId + ' .main-image img').src;
+
+
+      const product = {
+        id: productId,
+        name: productName,
+        price: productPrice,
+        size: selectedSize,
+        image: productImage,
+        quantity: 1
+      };
+
+
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+
+      const existingItemIndex = cart.findIndex(item => item.id === productId && item.size === selectedSize);
+
+      if (existingItemIndex >= 0) {
+
+        cart[existingItemIndex].quantity += 1;
+      } else {
+
+        cart.push(product);
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      updateCartCounter();
+
+      alert(`Товар добавлен в корзину!\n${productName}\nРазмер: ${selectedSize}\nЦена: ${productPrice} ₽`);
+    }
+
+
+    function updateCartCounter() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cart-counter').textContent = totalItems;
+    }
+
+    document.addEventListener('DOMContentLoaded', updateCartCounter);
+</script>
+</body>
 
 {% endblock %}

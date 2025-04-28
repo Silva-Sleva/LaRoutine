@@ -2,204 +2,195 @@
 
 {% block content %}
 <div class="container mt-5">
-  <h2 class="mb-4">Ваша корзина</h2>
+    <h2 class="mb-4">Ваша корзина</h2>
 
-  <div class="row">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-body" id="cart-items">
-          <!-- Товары будут добавляться сюда -->
-          <div class="text-center py-5" id="empty-cart-message">
-            <h5>Ваша корзина пуста</h5>
-            <p>Перейдите в каталог, чтобы добавить товары</p>
-            <a href="/tshirt" class="btn btn-dark">В каталог</a>
-          </div>
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body" id="cart-items">
+                    <div class="text-center py-5" id="empty-cart-message">
+                        <h5>Ваша корзина пуста</h5>
+                        <p>Перейдите в каталог, чтобы добавить товары</p>
+                        <a href="/tshirt" class="btn btn-dark">В каталог</a>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Итого</h5>
-          <hr>
-          <div class="d-flex justify-content-between mb-2">
-            <span>Товары:</span>
-            <span id="total-price">0 ₽</span>
-          </div>
-          <div class="d-flex justify-content-between mb-3">
-            <span>Доставка:</span>
-            <span>Бесплатно</span>
-          </div>
-          <hr>
-          <div class="d-flex justify-content-between fw-bold mb-4">
-            <span>Общая сумма:</span>
-            <span id="final-price">0 ₽</span>
-          </div>
-          <button class="btn btn-dark w-100 py-2" id="checkout-btn">Оформить заказ</button>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Итого</h5>
+                    <hr>
+                    <div class="d-flex justify-content-between mb-2">
+                        <span>Товары:</span>
+                        <span id="total-price">0 ₽</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-3">
+                        <span>Доставка:</span>
+                        <span>Бесплатно</span>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between fw-bold mb-4">
+                        <span>Общая сумма:</span>
+                        <span id="final-price">0 ₽</span>
+                    </div>
+                    <button class="btn btn-dark w-100 py-2" id="checkout-btn">Оформить заказ</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <script>
-// Функция для добавления товара в корзину
-function addToCart(productId, productName, productPrice, productImage, selectedSize) {
-  const product = {
-    id: productId,
-    name: productName,
-    price: parseInt(productPrice.replace(/\D/g, '')),
-    size: selectedSize,
-    image: productImage,
-    quantity: 1
-  };
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-  const existingItemIndex = cart.findIndex(item =>
-    item.id === productId && item.size === selectedSize
-  );
-
-  if (existingItemIndex >= 0) {
-    cart[existingItemIndex].quantity += 1;
-  } else {
-    cart.push(product);
-  }
-
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCart();
-  updateCartCounter();
-
-  alert(`Товар добавлен в корзину!\n${productName}\nРазмер: ${selectedSize}\nЦена: ${productPrice}`);
-}
-
-// Функция для обновления корзины
-function updateCart() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const cartItemsContainer = document.getElementById('cart-items');
-  const emptyCartMessage = document.getElementById('empty-cart-message');
-  const totalPriceElement = document.getElementById('total-price');
-  const finalPriceElement = document.getElementById('final-price');
-
-  if (cart.length === 0) {
-    emptyCartMessage.style.display = 'block';
-    cartItemsContainer.innerHTML = '';
-    cartItemsContainer.appendChild(emptyCartMessage);
-    totalPriceElement.textContent = '0 ₽';
-    finalPriceElement.textContent = '0 ₽';
-    return;
-  }
-
-  emptyCartMessage.style.display = 'none';
-  cartItemsContainer.innerHTML = '';
-
-  let totalPrice = 0;
-
-  cart.forEach((item, index) => {
-    totalPrice += item.price * item.quantity;
-
-    const itemElement = document.createElement('div');
-    itemElement.className = 'd-flex mb-3 border-bottom pb-3 align-items-start';
-    itemElement.innerHTML = `
-      <div class="flex-shrink-0">
-        <img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover;">
-      </div>
-      <div class="flex-grow-1 ms-3">
-        <h6 class="mb-1">${item.name}</h6>
-        <small class="text-muted">Размер: ${item.size}</small>
-        <div class="d-flex justify-content-between align-items-center mt-2">
-          <div class="input-group" style="width: 120px;">
-            <button class="btn btn-outline-secondary minus-btn" type="button" data-index="${index}">-</button>
-            <input type="text" class="form-control text-center quantity-input" value="${item.quantity}" readonly>
-            <button class="btn btn-outline-secondary plus-btn" type="button" data-index="${index}">+</button>
-          </div>
-          <div class="fw-bold">${item.price * item.quantity} ₽</div>
-        </div>
-      </div>
-      <button class="btn btn-link text-danger p-0 remove-btn" data-index="${index}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-          <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
-          <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
-        </svg>
-      </button>
-    `;
-
-    cartItemsContainer.appendChild(itemElement);
-  });
-
-  totalPriceElement.textContent = `${totalPrice} ₽`;
-  finalPriceElement.textContent = `${totalPrice} ₽`;
-}
-
-// Используем делегирование событий для всех кнопок корзины
-document.getElementById('cart-items').addEventListener('click', function(e) {
-  const target = e.target.closest('.plus-btn, .minus-btn, .remove-btn');
-  if (!target) return;
-
-  const index = parseInt(target.getAttribute('data-index'));
-  let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-  if (target.classList.contains('plus-btn')) {
-    cart[index].quantity += 1;
-  }
-  else if (target.classList.contains('minus-btn')) {
-    cart[index].quantity -= 1;
-    if (cart[index].quantity <= 0) {
-      cart.splice(index, 1);
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
     }
-  }
-  else if (target.classList.contains('remove-btn')) {
-    cart.splice(index, 1);
-  }
 
-  localStorage.setItem('cart', JSON.stringify(cart));
-  updateCart();
-  updateCartCounter();
-});
+    function updateCart() {
+      const cartItemsContainer = document.getElementById('cart-items');
+      const emptyCartMessage = document.getElementById('empty-cart-message');
+      const totalPriceElement = document.getElementById('total-price');
+      const finalPriceElement = document.getElementById('final-price');
 
-// Обновление количества товаров в шапке
-function updateCartCounter() {
-  const cart = JSON.parse(localStorage.getItem('cart')) || [];
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  const counterElement = document.getElementById('cart-counter');
-  if (counterElement) {
-    counterElement.textContent = totalItems;
-  }
-}
-
-// Оформление заказа
-document.addEventListener('DOMContentLoaded', function() {
-  updateCart();
-  updateCartCounter();
-
-  const checkoutBtn = document.getElementById('checkout-btn');
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', function() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      if (cart.length === 0) {
-        alert('Корзина пуста!');
+      if (!cartItemsContainer || !emptyCartMessage || !totalPriceElement || !finalPriceElement) {
+        console.error('Не найдены необходимые элементы DOM');
         return;
       }
-      alert('Заказ оформлен! Спасибо за покупку!');
-      localStorage.removeItem('cart');
+
+      if (cart.length === 0) {
+        emptyCartMessage.style.display = 'block';
+        cartItemsContainer.innerHTML = '';
+        cartItemsContainer.appendChild(emptyCartMessage);
+        totalPriceElement.textContent = '0 ₽';
+        finalPriceElement.textContent = '0 ₽';
+        return;
+      }
+
+      emptyCartMessage.style.display = 'none';
+      cartItemsContainer.innerHTML = '';
+
+      let totalPrice = 0;
+
+      cart.forEach((item, index) => {
+        totalPrice += item.price * item.quantity;
+
+        const itemElement = document.createElement('div');
+        itemElement.className = 'd-flex mb-3 border-bottom pb-3 align-items-start cart-item';
+        itemElement.dataset.index = index;
+        itemElement.innerHTML = `
+          <div class="flex-shrink-0">
+            <img src="${item.image}" alt="${item.name}" style="width: 80px; height: 80px; object-fit: cover;">
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <h6 class="mb-1">${item.name}</h6>
+            <small class="text-muted">Размер: ${item.size}</small>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+              <div class="input-group" style="width: 120px;">
+                <button class="btn btn-outline-secondary minus-btn" type="button">-</button>
+                <input type="text" class="form-control text-center quantity-input" value="${item.quantity}" readonly>
+                <button class="btn btn-outline-secondary plus-btn" type="button">+</button>
+              </div>
+              <div class="fw-bold">${item.price * item.quantity} ₽</div>
+            </div>
+          </div>
+          <button class="btn btn-link text-danger p-0 remove-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+              <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+              <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+            </svg>
+          </button>
+        `;
+
+        cartItemsContainer.appendChild(itemElement);
+      });
+
+      totalPriceElement.textContent = `${totalPrice} ₽`;
+      finalPriceElement.textContent = `${totalPrice} ₽`;
+    }
+
+    function updateCartCounter() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const counterElement = document.getElementById('cart-counter');
+      if (counterElement) {
+        counterElement.textContent = totalItems;
+      }
+    }
+
+    function setupCartHandlers() {
+      document.getElementById('cart-items').addEventListener('click', function(e) {
+        const target = e.target;
+        const itemElement = target.closest('.cart-item');
+
+        if (!itemElement) return;
+
+        const index = parseInt(itemElement.dataset.index);
+
+        if (target.classList.contains('plus-btn')) {
+          cart[index].quantity += 1;
+        }
+        else if (target.classList.contains('minus-btn')) {
+          cart[index].quantity = Math.max(1, cart[index].quantity - 1);
+        }
+
+        else if (target.classList.contains('remove-btn')) {
+          cart.splice(index, 1);
+        }
+
+        saveCart();
+        updateCart();
+        updateCartCounter();
+      });
+
+      document.getElementById('checkout-btn')?.addEventListener('click', function() {
+        if (cart.length === 0) {
+          alert('Корзина пуста!');
+          return;
+        }
+        alert('Заказ оформлен! Спасибо за покупку!');
+        cart = [];
+        saveCart();
+        updateCart();
+        updateCartCounter();
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!document.getElementById('cart-items')) {
+        console.error('Элемент корзины не найден');
+        return;
+      }
+
       updateCart();
       updateCartCounter();
+      setupCartHandlers();
     });
-  }
-});
-</script>
 
-<style>
-  .quantity-input {
-    background-color: white;
-  }
-  .remove-btn {
-    margin-left: 10px;
-    align-self: center;
-  }
-  .remove-btn:hover {
-    opacity: 0.7;
-  }
-</style>
+    function addToCart(productId, productName, productPrice, productImage, selectedSize) {
+      const existingItem = cart.find(item =>
+        item.id === productId && item.size === selectedSize
+      );
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        cart.push({
+          id: productId,
+          name: productName,
+          price: parseInt(productPrice.replace(/\D/g, '')),
+          size: selectedSize,
+          image: productImage,
+          quantity: 1
+        });
+      }
+
+      saveCart();
+      updateCart();
+      updateCartCounter();
+
+      alert(`Товар добавлен в корзину!\n${productName}\nРазмер: ${selectedSize}\nЦена: ${productPrice}`);
+    }
+</script>
 {% endblock %}
