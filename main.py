@@ -17,12 +17,16 @@ def bags():
 def tshirt():
     return render_template('tshirt.html', title='Миссия Колонизация Марса')
 
+@app.route('/basket', methods=['GET', 'POST'])
+def basket():
+    return render_template('basket.html', title='Миссия Колонизация Марса')
+
 
 def main():
     # db_session.global_init("db/blogs.db")
     # add_user()
     # add_job()
-    app.run(port=8081, host='127.0.0.1', debug=True)
+    app.run(port=8085, host='127.0.0.1', debug=True)
 
 if __name__ == '__main__':
     main()

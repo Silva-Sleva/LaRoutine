@@ -54,15 +54,39 @@
         .product-image {
             width: 100%;
             height: 300px;
-            background-color: #eee;
+            background-color: transparent;
             overflow: hidden;
-        }
+            position: relative;
+    }
 
         .product-image img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             object-position: center;
+            transition: opacity 0.3s ease;
+    }
+
+        .product-image .default-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 1;
+    }
+
+        product-image .hover-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+        .product-card:hover .hover-image {
+            opacity: 1;
+        }
+
+        .product-card:hover .default-image {
+            opacity: 0;
         }
 
         .product-info {
@@ -105,7 +129,7 @@
         .main-image {
             width: 100%;
             height: 500px;
-            background-color: #f5f5f5;
+            background-color: transparent;
             margin-bottom: 20px;
             overflow: hidden;
         }
@@ -153,6 +177,7 @@
             border-color: #000;
         }
 
+
         .add-to-cart {
             background: #000;
             color: white;
@@ -178,6 +203,10 @@
 
         .back-to-catalog:hover {
             text-decoration: underline;
+        }
+
+        .tee {
+            font-family: 'Brush Script MT', sans-serif;
         }
 
         /* Адаптивность */
@@ -217,13 +246,14 @@
     <div class="container">
         <!-- Каталог товаров -->
         <div id="catalog">
-            <h1>Футболки</h1>
+            <h1 style="font-family:'Brush Script MT'">Футболки</h1>
 
             <div class="products-grid">
                 <!-- Футболка 1 -->
                 <a href="#" class="product-card" onclick="showProduct(1); return false;">
                     <div class="product-image">
-                        <img src="static/images/tshirt_1.png" alt="Классическая белая футболка">
+                        <img src="static/images/tshirt_1.png" alt="Классическая белая футболка" class="default-image">
+                        <img src="static/images/tshirt_1.2.png" alt="Классическая белая футболка - вид сзади" class="hover-image">
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">Классическая белая футболка</h3>
@@ -234,7 +264,8 @@
                 <!-- Футболка 2 -->
                 <a href="#" class="product-card" onclick="showProduct(2); return false;">
                     <div class="product-image">
-                        <img src="static/images/tshirt_2.png" alt="Черная футболка с принтом">
+                        <img src="static/images/tshirt_2.png" alt="Черная футболка с принтом" class="default-image">
+                        <img src="static/images/tshirt_2.2.png" alt="Черная футболка - вид сзади" class="hover-image">
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">Черная футболка с принтом</h3>
@@ -245,7 +276,8 @@
                 <!-- Футболка 3 -->
                 <a href="#" class="product-card" onclick="showProduct(3); return false;">
                     <div class="product-image">
-                        <img src="static/images/tshirt_3.png" alt="Оверсайз серая футболка">
+                        <img src="static/images/tshirt_3.png" alt="Оверсайз серая футболка" class="default-image">
+                        <img src="static/images/tshirt_3.1.png" alt="Оверсайз серая футболка - вид сзади" class="hover-image">
                     </div>
                     <div class="product-info">
                         <h3 class="product-title">Оверсайз серая футболка</h3>
@@ -372,19 +404,58 @@
 
         // Добавление в корзину
         function addToCart(productId) {
-            // Получаем выбранный размер
-            const selectedSize = document.querySelector('#product-' + productId + ' .size-option.selected').innerText;
+          // Получаем выбранный размер
+          const selectedSize = document.querySelector('#product-' + productId + ' .size-option.selected').innerText;
 
-            // Здесь должна быть логика добавления в корзину
-            alert('Товар добавлен в корзину!\nФутболка: ' +
-                  document.querySelector('#product-' + productId + ' .product-title-page').innerText +
-                  '\nРазмер: ' + selectedSize +
-                  '\nЦена: ' + document.querySelector('#product-' + productId + ' .product-price-page').innerText);
+          // Получаем данные о товаре
+          const productName = document.querySelector('#product-' + productId + ' .product-title-page').innerText;
+          const productPrice = parseInt(document.querySelector('#product-' + productId + ' .product-price-page').innerText.replace(/\D/g, ''));
+          const productImage = document.querySelector('#product-' + productId + ' .main-image img').src;
 
-            // В реальном проекте здесь был бы AJAX-запрос к серверу
-            // или обновление объекта корзины в localStorage
+          // Создаем объект товара
+          const product = {
+            id: productId,
+            name: productName,
+            price: productPrice,
+            size: selectedSize,
+            image: productImage,
+            quantity: 1
+          };
+
+          // Получаем текущую корзину из localStorage
+          let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+          // Проверяем, есть ли уже такой товар с таким же размером в корзине
+          const existingItemIndex = cart.findIndex(item => item.id === productId && item.size === selectedSize);
+
+          if (existingItemIndex >= 0) {
+            // Если товар уже есть - увеличиваем количество
+            cart[existingItemIndex].quantity += 1;
+          } else {
+            // Если нет - добавляем новый товар
+            cart.push(product);
+          }
+
+          // Сохраняем обновленную корзину
+          localStorage.setItem('cart', JSON.stringify(cart));
+
+          // Обновляем счетчик в шапке
+          updateCartCounter();
+
+          // Показываем уведомление
+          alert(`Товар добавлен в корзину!\n${productName}\nРазмер: ${selectedSize}\nЦена: ${productPrice} ₽`);
         }
-    </script>
-</body>
+
+        // Функция для обновления счетчика в шапке
+        function updateCartCounter() {
+          const cart = JSON.parse(localStorage.getItem('cart')) || [];
+          const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+          document.getElementById('cart-counter').textContent = totalItems;
+        }
+
+        // Инициализация счетчика при загрузке страницы
+        document.addEventListener('DOMContentLoaded', updateCartCounter);
+            </script>
+        </body>
 
 {% endblock %}
