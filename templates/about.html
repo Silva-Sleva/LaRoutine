@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="ru">
+{% extends "base.html" %}
+{% block content %}
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{title}} | La Routine</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
     <style>
         :root {
             --primary-bg: #f8f5f2;
@@ -69,7 +63,7 @@
             padding: 100px 0;
             text-align: center;
             margin-bottom: 50px;
-            background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('/static/images/logo.png');
+            background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('/static/images/hero-bg.jpg');
             background-size: cover;
             background-position: center;
             color: white;
@@ -78,7 +72,7 @@
         .hero-content {
             max-width: 800px;
             margin: 0 auto;
-            padding: 1px;
+            padding: 20px;
         }
 
         .hero h1 {
@@ -180,76 +174,42 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand brand-logo" href="/">
-                <img src="/static/images/logo.png" height="100" alt="La Routine">
-                <span>La Routine</span>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/about">FAQ</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/bags">Bags</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/tshirt">T-shirt</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/basket" id="cart-link">
-                            Корзина <span class="badge rounded-pill" id="cart-counter">0</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
     <div class="hero">
         <div class="hero-content">
-
+            <h1>La Routine</h1>
+            <p>Изысканная одежда для тех, кто ценит комфорт и стиль в каждой детали</p>
         </div>
     </div>
 
-    <main role="main" class="container">
-        {% block content %}<img src="static/images/brand.jpg" alt="Классическая белая футболка" class="default-image">{% endblock %}
-    </main>
-
-    <footer>
-        <div class="container text-center">
-            <div class="social-links mb-3">
-                <a href="#"><i class="bi bi-instagram"></i></a>
-                <a href="#"><i class="bi bi-telegram"></i></a>
-                <a href="#"><i class="bi bi-facebook"></i></a>
-            </div>
-            <p>© 2025 La Routine. Все права защищены.</p>
-            <p>info@laroutine.ru | +7 (495) 123-45-67</p>
+    <section class="about">
+        <div class="container">
+            <h2>О бренде</h2>
+            <p>La Routine - это философия повседневной элегантности. Мы создаем одежду, которая сочетает в себе комфорт, качество и неповторимый стиль. Каждая вещь - это результат кропотливой работы наших дизайнеров и мастеров.</p>
+            <p>Основанный в 2015 году, наш бренд быстро завоевал признание среди ценителей качественной одежды. Мы используем только натуральные материалы и уделяем внимание каждой детали.</p>
+            <p>La Routine - это не просто одежда, это образ жизни для тех, кто стремится к гармонии во всем.</p>
         </div>
-    </footer>
+    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Функция для обновления счетчика корзины
-        function updateCartCounter() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            const counterElement = document.getElementById('cart-counter');
-            if (counterElement) {
-                counterElement.textContent = totalItems;
-            }
-        }
-
-        // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartCounter();
-        });
-    </script>
-</body>
-</html>
+    <section class="stores">
+        <div class="container">
+            <h2>Наши магазины</h2>
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="store-card">
+                        <h3>Москва</h3>
+                        <p>Неглинная ул., 8/10</p>
+                        <p>3-й Этаж</p>
+                        <p>Ежедневно 10:00-22:00</p>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="store-card">
+                        <h3>Санкт-Петербург</h3>
+                        <p>Дмитровский пер., 16-18/6</p>
+                        <p>Ежедневно 10:00-22:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

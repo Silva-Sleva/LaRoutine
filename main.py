@@ -24,10 +24,11 @@ def basket():
     return render_template('basket.html', title='Миссия Колонизация Марса')
 
 
+@app.route('/about')
+def about():
+    return render_template('about.html', title='La Routine')
+
 def main():
-    # db_session.global_init("db/blogs.db")
-    # add_user()
-    # add_job()
     app.run(port=8085, host='127.0.0.1', debug=True)
 
 

@@ -1,4 +1,405 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>BAGS</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог сумок</title>
+    <style>
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #beada1;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 300;
+            font-size: 28px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .product-card {
+            width: calc(33.33% - 20px);
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 300px;
+            background-color: transparent;
+            overflow: hidden;
+            position: relative;
+    }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            transition: opacity 0.3s ease;
+    }
+
+        .product-image .default-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 1;
+    }
+
+        product-image .hover-image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+        .product-card:hover .hover-image {
+            opacity: 1;
+        }
+
+        .product-card:hover .default-image {
+            opacity: 0;
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-title {
+            font-size: 16px;
+            margin: 0 0 10px;
+            font-weight: 400;
+        }
+
+        .product-price {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0;
+        }
+
+
+        .product-page {
+            display: none;
+            background: white;
+            padding: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .product-page.active {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .product-gallery {
+            width: 60%;
+            padding-right: 40px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 500px;
+            background-color: transparent;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .product-details {
+            width: 40%;
+        }
+
+        .product-title-page {
+            font-size: 24px;
+            margin: 0 0 20px;
+            font-weight: 400;
+        }
+
+        .product-price-page {
+            font-size: 28px;
+            font-weight: 500;
+            margin: 0 0 30px;
+        }
+
+        .size-selector {
+            margin: 30px 0;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .size-option {
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .size-option:hover, .size-option.selected {
+            border-color: #000;
+        }
+
+
+        .add-to-cart {
+            background: #000;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            width: 100%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #333;
+        }
+
+        .back-to-catalog {
+            display: inline-block;
+            margin-bottom: 30px;
+            color: #000;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-to-catalog:hover {
+            text-decoration: underline;
+        }
+
+        .tee {
+            font-family: 'Brush Script MT', sans-serif;
+        }
+
+        @media (max-width: 992px) {
+            .product-gallery, .product-details {
+                width: 100%;
+                padding-right: 0;
+            }
+
+            .product-details {
+                margin-top: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-card {
+                width: calc(50% - 15px);
+            }
+
+            .main-image {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .product-card {
+                width: 100%;
+            }
+
+            .main-image {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="catalog">
+        <h1 style="font-family:'Brush Script MT'">Сумки</h1>
+
+        <div class="products-grid">
+            <a href="#" class="product-card" onclick="showProduct(1); return false;">
+                <div class="product-image">
+                    <img src="static/images/bag_1.png" alt="Классическая белая футболка" class="default-image">
+                    <img src="static/images/bag_1.1.png" alt="Классическая белая футболка - вид сзади"
+                         class="hover-image">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Сумка "прозрачная"</h3>
+                    <p class="product-price">6 990 ₽</p>
+                </div>
+            </a>
+
+            <a href="#" class="product-card" onclick="showProduct(2); return false;">
+                <div class="product-image">
+                    <img src="static/images/bag_2.png" alt="Черная футболка с принтом" class="default-image">
+                    <img src="static/images/bag_2.2.png" alt="Черная футболка - вид сзади" class="hover-image">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Сумка "змея"</h3>
+                    <p class="product-price">6 990 ₽</p>
+                </div>
+            </a>
+
+            <a href="#" class="product-card" onclick="showProduct(3); return false;">
+                <div class="product-image">
+                    <img src="static/images/bag_3.png" alt="Оверсайз серая футболка" class="default-image">
+                    <img src="static/images/bag_3.1.png" alt="Оверсайз серая футболка - вид сзади"
+                         class="hover-image">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Сумка "Екатеринбург"</h3>
+                    <p class="product-price">6 990 ₽</p>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <div id="product-1" class="product-page">
+        <a href="#" class="back-to-catalog" onclick="hideProduct(); return false;">← Вернуться в каталог</a>
+        <div class="product-gallery">
+            <div class="main-image">
+                <img src="static/images/bag_1.png" alt="Классическая белая футболка">
+            </div>
+        </div>
+        <div class="product-details">
+            <h2 class="product-title-page">Сумка "прозрачная"</h2>
+            <p class="product-price-page">6 990 ₽</p>
+
+            <p>Сумка из высококачественной искусственной кожи с напечатанным рисунком и сложной вышивкой логотипа.</p>
+
+            <button class="add-to-cart" onclick="addToCart(1)">Добавить в корзину</button>
+        </div>
+    </div>
+
+    <div id="product-2" class="product-page">
+        <a href="#" class="back-to-catalog" onclick="hideProduct(); return false;">← Вернуться в каталог</a>
+        <div class="product-gallery">
+            <div class="main-image">
+                <img src="static/images/bag_2.png" alt="Черная футболка с принтом">
+            </div>
+        </div>
+        <div class="product-details">
+            <h2 class="product-title-page">Сумка "змея"</h2>
+            <p class="product-price-page">6 990 ₽</p>
+
+            <p>Сумка из высококачественной искусственной кожи с напечатанным рисунком и сложной вышивкой логотипа.</p>
+
+            <button class="add-to-cart" onclick="addToCart(2)">Добавить в корзину</button>
+        </div>
+    </div>
+
+    <div id="product-3" class="product-page">
+        <a href="#" class="back-to-catalog" onclick="hideProduct(); return false;">← Вернуться в каталог</a>
+        <div class="product-gallery">
+            <div class="main-image">
+                <img src="static/images/bag_3.png" alt="Оверсайз серая футболка">
+            </div>
+        </div>
+        <div class="product-details">
+            <h2 class="product-title-page">Сумка "Екатеринбург"</h2>
+            <p class="product-price-page">6 990 ₽</p>
+
+            <p>Сумка из высококачественной искусственной кожи с напечатанным рисунком и сложной вышивкой логотипа.</p>
+
+            <button class="add-to-cart" onclick="addToCart(3)">Добавить в корзину</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function showProduct(productId) {
+        document.getElementById('catalog').style.display = 'none';
+        document.getElementById('product-' + productId).classList.add('active');
+    }
+
+
+    function hideProduct() {
+        document.getElementById('catalog').style.display = 'block';
+        document.querySelectorAll('.product-page').forEach(page => {
+            page.classList.remove('active');
+        });
+    }
+
+
+
+
+    function addToCart(productId) {
+
+
+
+
+      const productName = document.querySelector('#product-' + productId + ' .product-title-page').innerText;
+      const productPrice = parseInt(document.querySelector('#product-' + productId + ' .product-price-page').innerText.replace(/\D/g, ''));
+      const productImage = document.querySelector('#product-' + productId + ' .main-image img').src;
+
+
+      const product = {
+        id: productId,
+        name: productName,
+        price: productPrice,
+        image: productImage,
+        quantity: 1
+      };
+
+
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+
+      const existingItemIndex = cart.findIndex(item => item.id === productId && item.size === selectedSize);
+
+      if (existingItemIndex >= 0) {
+
+        cart[existingItemIndex].quantity += 1;
+      } else {
+
+        cart.push(product);
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      updateCartCounter();
+
+      alert(`Товар добавлен в корзину!\n${productName}\nЦена: ${productPrice} ₽`);
+    }
+
+
+    function updateCartCounter() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cart-counter').textContent = totalItems;
+    }
+
+    document.addEventListener('DOMContentLoaded', updateCartCounter);
+</script>
+</body>
+
 {% endblock %}
