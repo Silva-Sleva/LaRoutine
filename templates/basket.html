@@ -9,8 +9,6 @@
     <div class="col-md-8">
       <div class="card">
         <div class="card-body" id="cart-items">
-          <!-- Товары будут добавляться сюда -->
-
         </div>
       </div>
     </div>
@@ -41,7 +39,6 @@
 </div>
 
 <script>
-// Функция для добавления товара в корзину
 function addToCart(productId, productName, productPrice, productImage, selectedSize) {
   const product = {
     id: productId,
@@ -71,7 +68,6 @@ function addToCart(productId, productName, productPrice, productImage, selectedS
   alert(`Товар добавлен в корзину!\n${productName}\nРазмер: ${selectedSize}\nЦена: ${productPrice}`);
 }
 
-// Функция для обновления корзины
 function updateCart() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const cartItemsContainer = document.getElementById('cart-items');
@@ -132,8 +128,6 @@ function updateCart() {
   totalPriceElement.textContent = `${totalPrice} ₽`;
   finalPriceElement.textContent = `${totalPrice} ₽`;
 }
-
-// Используем делегирование событий для всех кнопок корзины
 document.getElementById('cart-items').addEventListener('click', function(e) {
   const target = e.target.closest('.plus-btn, .minus-btn, .remove-btn');
   if (!target) return;
@@ -158,8 +152,7 @@ document.getElementById('cart-items').addEventListener('click', function(e) {
   updateCart();
   updateCartCounter();
 });
-
-// Обновление количества товаров в шапке
+  
 function updateCartCounter() {
   const cart = JSON.parse(localStorage.getItem('cart')) || [];
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -169,7 +162,6 @@ function updateCartCounter() {
   }
 }
 
-// Оформление заказа
 document.addEventListener('DOMContentLoaded', function() {
   updateCart();
   updateCartCounter();
